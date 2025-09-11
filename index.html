@@ -1,0 +1,53 @@
+<DOCTYPE! html>
+    <html lang="en">
+        <head>
+            <meta charset = "UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale-1.0">
+            <title> Tic Tac Toe</title>
+            <link href ="styles.css" rel="stylesheet">
+            <link href ="https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Roboto+Serif&display=swap" rel="stylesheet">
+            <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div id="title">
+<h1>
+    Tic Tac Toe 
+</h1>
+</div>
+<div id="board">
+    <div class="square" id ="square0"></div>
+    <div class="square" id ="square1"></div>
+    <div class="square" id ="square2"></div>
+    <div class="square" id ="square3"></div>
+    <div class="square" id ="square4"></div>
+    <div class="square" id ="square5"></div>
+    <div class="square" id ="square6"></div>
+    <div class="square" id ="square7"></div>
+    <div class="square" id ="square8"></div>
+</div>
+<div id="chatbox">
+  <div class="chat-header">Game Chat</div>
+  <div id="chatMessages"></div>
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="Type your message here...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+<div id="endGame">
+    <input type="button" id="restartButton" value="Restart" onclick="restartButton()">  
+
+</div>
+<div id="scoreboard">
+    <h2>Score</h2>
+    <p> X: <span id="scoreX"></span> - O: <span id="scoreO"></span>
+    </p>
+</div>
+<div id="clearscore">
+    <input type="button" id="clearButton" value="Clear Score" onclick="clearScore()">
+</div>
+
+<script src="game.js"></script>
+</body>
+    </html>
+</DOCTYPE>
