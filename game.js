@@ -15,12 +15,13 @@ const scoreOElement = document.getElementById('scoreO');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.getElementById('chatInput');
 const sendBtn = document.getElementById('sendButton');
-
+const emojjiBtn = document.getElementById('emojiButton');
+const emojigrid = document.getElementById('emojiGrid');
 sendBtn.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', (e) => {
     if(e.key === 'Enter') sendMessage();
 });
-
+const emojis = ['😀','😂','😍','😎','😭','😡','👍','🙏','🎉','💔','🔥','🌟'];
 const winning_combinations = [
     [0,1,2],
     [3,4,5],
@@ -110,6 +111,104 @@ function sendMessage() {
 }
 chatMessages.appendChild(p);
 chatInput.value = '';
-
+chatMessages.scrollTop = chatMessages.scrollHeight;
 
 }
+emojis.forEach(emoji => {
+    const span = document.createElement('span');
+    span.textContent = emoji;
+    span.style.cursor = 'pointer';
+    span.style.fontSize = '20px';
+    span.style.margin = '5px';
+
+    // When emoji is clicked, add to chat input
+    span.addEventListener('click', () => {
+        chatInput.value += emoji;
+        emojigrid.style.display = 'none'; // hide after selecting
+        chatInput.focus();
+    });
+
+    emojigrid.appendChild(span);
+});
+
+// Toggle emoji grid visibility
+emojjiBtn.addEventListener('click', () => {
+    if (emojigrid.style.display === 'block') {
+        emojigrid.style.display = 'none';
+    } else {
+        emojigrid.style.display = 'block';
+    }
+});
+
+const gifs = [ 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif',
+               'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+               'https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif',
+               'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif',
+               'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif',
+                'https://media.giphy.com/media/JmBXdjfIblJDi/giphy.gif',
+            'https://media.giphy.com/media/d1E2IByItLUuONMc/giphy.gif',
+        'https://media.giphy.com/media/6pUBXVTai18Iw/giphy.gif',
+    'https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif',
+'https://media.giphy.com/media/3o6Zt8MgUuvSbkZYWc/giphy.gif',
+'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif',
+'https://media.giphy.com/media/JmBXdjfIblJDi/giphy.gif',
+'https://media.giphy.com/media/d1E2IByItLUuONMc/giphy.gif',
+'https://media.giphy.com/media/6pUBXVTai18Iw/giphy.gif',
+'https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif',
+'https://media.giphy.com/media/3o6Zt8MgUuvSbkZYWc/giphy.gif'
+];
+
+const gifgrid = document.getElementById('gifGrid');
+const gifBtn = document.getElementById('gifButton');               
+//fill gif grid with preview images
+gifs.forEach(url => {
+    
+    const img = document.createElement('img');
+    img.src = url;
+    img.style.width = '75px';
+    img.style.height = '100px';
+    img.style.objectFit = 'cover';
+    img.style.borderRadius = '10px';
+    img.style.cursor = 'pointer';
+    img.style.margin = '5px';
+    // When gif is clicked, add to chat
+ 
+
+ img.addEventListener('click', () => {
+    const p = document.createElement('p');
+    
+    if ( chatTurn ==='X'){
+        p.textContent = "Player X: " ;
+        p.classList.add("playerX");
+        chatTurn ='O';
+    }else 
+    {  p.textContent = "Player O: ";
+        p.classList.add("playerO"); 
+        chatTurn = 'X';
+    }
+
+    const gifImg = document.createElement('img');
+    gifImg.src = url;
+    gifImg.style.width = '150px';
+    gifImg.style.height = '150px';
+    gifImg.style.objectFit = 'cover';
+    gifImg.style.borderRadius = '10px';
+    gifImg.scrollTop = gifImg.scrollHeight;
+    
+    p.appendChild(gifImg);
+    chatMessages.appendChild(p);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    gifgrid.style.display = 'none';
+
+ });
+ gifgrid.appendChild(img);
+});
+
+gifBtn.addEventListener("click", () => {
+    if (gifgrid.style.display === 'block'){
+        gifgrid.style.display = 'none';
+    }else{
+        gifgrid.style.display = 'block';
+    }
+});
