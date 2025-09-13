@@ -3,8 +3,9 @@ const squares = document.getElementsByClassName('square');
 const players = ['X','O'];
 let currentPlayer = players[0];
 
-const endMessage = document.createElement('h2');
+const endMessage = document.createElement('h2') && document.getElementById('endMessage');
 endMessage.textContent = 'X`s turn!';
+endMessage.className = "Xturn1";
 endMessage.style.marginTop = '20px';
 endMessage.style.textAlign = 'center';
 board.after(endMessage);
@@ -15,13 +16,17 @@ const scoreOElement = document.getElementById('scoreO');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.getElementById('chatInput');
 const sendBtn = document.getElementById('sendButton');
-const emojjiBtn = document.getElementById('emojiButton');
+const emojiBtn = document.getElementById('emojiButton');
 const emojigrid = document.getElementById('emojiGrid');
 sendBtn.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', (e) => {
     if(e.key === 'Enter') sendMessage();
 });
-const emojis = ['😀','😂','😍','😎','😭','😡','👍','🙏','🎉','💔','🔥','🌟'];
+const emojis = ['😀','😁','😂','🤣','😅','😊','😍','😘','😎','😇',
+  '🤩','😋','😜','🤔','🤨','😢','😭','😡','🤯','😱',
+  '👍','👎','🙏','👏','🙌','🤝','💪','👀','🎉','💔',
+  '❤️','💖','🔥','🌟','✨','🌈','🍕','🍔','🍟','🍩',
+  '⚽','🏀','🎮','🎵','🎶','🚀','✈️','🏝️','🌍','💡'];
 const winning_combinations = [
     [0,1,2],
     [3,4,5],
@@ -40,6 +45,7 @@ for (let i=0; i < squares.length;i++){
         squares[i].textContent = currentPlayer;
         if(checkWin(currentPlayer)){
             endMessage.textContent = `Game over! ${currentPlayer} wins!`;
+            endMessage.classname ="win message";
             if(currentPlayer === 'X'){
                 scoreX++;
                 scoreXElement.textContent = scoreX;
@@ -55,19 +61,23 @@ for (let i=0; i < squares.length;i++){
    }   currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
    if(currentPlayer == players[0]){
     endMessage.textContent = 'X`s turn!';
+    endMessage.className = "Xturn2";
     } else {
     endMessage.textContent = 'O`s turn!';
+    endMessage.className = "Oturn1";
    }
 })
 }
 
 
 function checkWin(currentPlayer) {
+
     for(let i=0; i< winning_combinations.length;i++){
         const [a,b,c] = winning_combinations[i];
         if(squares[a].textContent === currentPlayer &&
            squares[b].textContent === currentPlayer &&
            squares[c].textContent === currentPlayer){
+        
             return true;
            }
         }
@@ -118,8 +128,10 @@ emojis.forEach(emoji => {
     const span = document.createElement('span');
     span.textContent = emoji;
     span.style.cursor = 'pointer';
-    span.style.fontSize = '20px';
+    span.style.fontSize = '22px';
     span.style.margin = '5px';
+    
+    
 
     // When emoji is clicked, add to chat input
     span.addEventListener('click', () => {
@@ -132,7 +144,7 @@ emojis.forEach(emoji => {
 });
 
 // Toggle emoji grid visibility
-emojjiBtn.addEventListener('click', () => {
+emojiBtn.addEventListener('click', () => {
     if (emojigrid.style.display === 'block') {
         emojigrid.style.display = 'none';
     } else {
@@ -172,6 +184,7 @@ gifs.forEach(url => {
     img.style.borderRadius = '10px';
     img.style.cursor = 'pointer';
     img.style.margin = '5px';
+    
     // When gif is clicked, add to chat
  
 
@@ -195,12 +208,13 @@ gifs.forEach(url => {
     gifImg.style.objectFit = 'cover';
     gifImg.style.borderRadius = '10px';
     gifImg.scrollTop = gifImg.scrollHeight;
+     
     
     p.appendChild(gifImg);
     chatMessages.appendChild(p);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    gifgrid.style.display = 'none';
-
+   
+ gifgrid.style.display = 'none';
  });
  gifgrid.appendChild(img);
 });
@@ -211,4 +225,17 @@ gifBtn.addEventListener("click", () => {
     }else{
         gifgrid.style.display = 'block';
     }
+    
 });
+
+const closeGifGridBtn = document.getElementById('closeGifGrid');
+closeGifGridBtn.addEventListener('click', () => {
+    gifgrid.style.display = 'none';
+});
+
+const closeEmojibtn = document.getElementById('closeEmojiGrid');
+closeEmojibtn.addEventListener('click', () => {
+    emojigrid.style.display = 'none'
+});
+ gifgrid.style.display = 'none';
+    emojigrid.style.display = 'none';
