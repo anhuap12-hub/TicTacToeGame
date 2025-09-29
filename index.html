@@ -1,63 +1,40 @@
-<DOCTYPE! html>
-    <html lang="en">
-        <head>
-            <meta charset = "UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale-1.0">
-            <title> Tic Tac Toe</title>
-            <link href ="styles.css" rel="stylesheet">
-            <link href ="https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Roboto+Serif&display=swap" rel="stylesheet">
-            <link rel="icon" type="image/x-icon" href="favicon.ico">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="user.css">
+    <title>Login with Username</title>
 </head>
 <body>
-    <div id="title">
-<div id="gameTitle">Tic Tac Toe</div>
-</div>
-
-<div id="board">
-    <div class="square" id ="square0"></div>
-    <div class="square" id ="square1"></div>
-    <div class="square" id ="square2"></div>
-    <div class="square" id ="square3"></div>
-    <div class="square" id ="square4"></div>
-    <div class="square" id ="square5"></div>
-    <div class="square" id ="square6"></div>
-    <div class="square" id ="square7"></div>
-    <div class="square" id ="square8"></div>
-</div>
-<div id="chatbox">
-  <div class="chat-header">Game Chat</div>
-  <div id="chatMessages"></div>
-  <div class="chat-input-area">
-    <input type="text" id="chatInput" placeholder="Type Here.............">
-    <button id="sendButton">Send</button>
-     <button id="emojiButton">😊</button>
-        <button id="gifButton">🎁</div>
-    <div id="iconbox">
-        <div id="emojiGrid" class="emojihidden">
-            <button id="closeEmojiGrid">X</button>
+    <div id="form-container">
+        <div id="title">Login with Username</div>
+        <div id="Player1">
+            Player1
+            <input type="text" id="Player1Name" placeholder="Type here..........">
         </div>
+        <div id="Player2">
+            Player2
+            <input type="text" id="Player2Name" placeholder="Type here..........">
         </div>
-    <div id = "gifbox">
-        <div id="gifGrid" class="gifhidden" >
-            <button id="closeGifGrid">X</button>
-         </div>
-     </div> 
+        <button id="playButton">Play</button>
     </div>
-  <div id="endMessage"></div>
-<div id="endGame">
-    <input type="button" id="restartButton" value="Restart" onclick="restartButton()">  
-
-</div>
-<div id="scoreboard">
-    <h2>Score</h2>
-    <p>X: <span id="scoreX">0</span> - O: <span id="scoreO">0</span></p>
-</div>
-<div id="clearscore">
-    <input type="button" id="clearButton" value="Clear Score" href= "#" onclick="clearScore()">
-</div>
-
-<script src="game.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playBtn = document.getElementById("playButton");
+            if (playBtn) {
+                playBtn.addEventListener('click', function () {
+                    const player1 = document.getElementById("Player1Name")?.value.trim();
+                    const player2 = document.getElementById("Player2Name")?.value.trim();
+                    if (player1 && player2) {
+                        localStorage.setItem("playerX", player1);
+                        localStorage.setItem("playerO", player2);
+                        window.location.href = "index.html";
+                    } else {
+                        alert("Please enter both player names!");
+                    }
+                });
+            }
+        });
+    </script>
 </body>
-    </html>
-</DOCTYPE>
+</html>
