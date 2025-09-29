@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="user.css">
+    <title>Login with Username</title>
+</head>
+<body>
+    <div id="form-container">
+        <div id="title">Login with Username</div>
+        <div id="Player1">
+            Player1
+            <input type="text" id="Player1Name" placeholder="Type here..........">
+        </div>
+        <div id="Player2">
+            Player2
+            <input type="text" id="Player2Name" placeholder="Type here..........">
+        </div>
+        <button id="playButton">Play</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playBtn = document.getElementById("playButton");
+            if (playBtn) {
+                playBtn.addEventListener('click', function () {
+                    const player1 = document.getElementById("Player1Name")?.value.trim();
+                    const player2 = document.getElementById("Player2Name")?.value.trim();
+                    if (player1 && player2) {
+                        localStorage.setItem("playerX", player1);
+                        localStorage.setItem("playerO", player2);
+                        window.location.href = "index.html";
+                    } else {
+                        alert("Please enter both player names!");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -36,16 +36,21 @@ const winning_combinations = [
     [2,5,8],
     [0,4,8],
     [2,4,6],
-] 
+];
+
+let gameOver = false; // <-- Add this flag
+
 for (let i=0; i < squares.length;i++){
     squares[i].addEventListener('click', () => {
+        if (gameOver) return; // <-- Prevent moves after win/tie
         if(squares[i].textContent !== ''){
-            return
+            return;
         }
         squares[i].textContent = currentPlayer;
         if(checkWin(currentPlayer)){
             endMessage.textContent = `Game over! ${currentPlayer} wins!`;
-            endMessage.classname ="win message";
+            endMessage.className ="winmessage";
+            gameOver = true; // <-- Set flag
             if(currentPlayer === 'X'){
                 scoreX++;
                 scoreXElement.textContent = scoreX;
@@ -53,93 +58,94 @@ for (let i=0; i < squares.length;i++){
                 scoreO++;
                 scoreOElement.textContent = scoreO;
             }
-            return
+            return;
         }
         if(checkTie()){
             endMessage.textContent = `Game over! It's a tie!`;
+            gameOver = true; // <-- Set flag
             return;
-   }   currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
-   if(currentPlayer == players[0]){
-    endMessage.textContent = 'X`s turn!';
-    endMessage.className = "Xturn2";
-    } else {
-    endMessage.textContent = 'O`s turn!';
-    endMessage.className = "Oturn1";
-   }
-})
+        }
+        currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
+        if(currentPlayer == players[0]){
+            endMessage.textContent = 'X`s turn!';
+            endMessage.className = "Xturn2";
+        } else {
+            endMessage.textContent = 'O`s turn!';
+            endMessage.className = "Oturn1";
+        }
+    });
 }
 
-
 function checkWin(currentPlayer) {
-
     for(let i=0; i< winning_combinations.length;i++){
         const [a,b,c] = winning_combinations[i];
         if(squares[a].textContent === currentPlayer &&
            squares[b].textContent === currentPlayer &&
            squares[c].textContent === currentPlayer){
-        
             return true;
-           }
         }
-        return false;
     }
+    return false;
+}
 
-    function checkTie(currentPlayer) {
-        for(let i=0; i<squares.length;i++){
-            if(squares[i].textContent === ''){
-                return false;
-            }
+function checkTie() {
+    for(let i=0; i<squares.length;i++){
+        if(squares[i].textContent === ''){
+            return false;
         }
-        return true;
     }
-    function restartButton()    {
-        for (let i=0; i<squares.length;i++){
-            squares[i].textContent = '';
-        }
-        endMessage.textContent = 'X`s turn!';
-        currentPlayer = players[0];
+    return true;
+}
+
+function restartButton() {
+    for (let i=0; i<squares.length;i++){
+        squares[i].textContent = '';
     }
+    endMessage.textContent = 'X`s turn!';
+    currentPlayer = players[0];
+    gameOver = false; // <-- Reset flag
+}
+
 function clearScore() {
     scoreX = 0;
     scoreO = 0;
     scoreXElement.textContent = scoreX;
     scoreOElement.textContent = scoreO;
 }
+
+const playerXName = localStorage.getItem("playerX") || "Player X";
+const playerOName = localStorage.getItem("playerO") || "Player O";
 let chatTurn = 'X';
+
 function sendMessage() {
     const msg = chatInput.value.trim();
     if(msg === '') return;
     const p = document.createElement('p');
-    if(chatTurn ==='X'){
-    p.textContent = "Player X: " + msg;
-    p.classList.add("playerX");
-    chatTurn ='O';
-}else {
-    p.textContent = "Player O: " + msg;
-    p.classList.add("playerO");
-    chatTurn = 'X';
+    if(chatTurn === 'X'){
+        p.textContent = playerXName + ": " + msg;
+        p.classList.add("playerX");
+        chatTurn ='O';
+    } else {
+        p.textContent = playerOName + ": " + msg;
+        p.classList.add("playerO");
+        chatTurn = 'X';
+    }
+    chatMessages.appendChild(p);
+    chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
-chatMessages.appendChild(p);
-chatInput.value = '';
-chatMessages.scrollTop = chatMessages.scrollHeight;
 
-}
 emojis.forEach(emoji => {
     const span = document.createElement('span');
     span.textContent = emoji;
     span.style.cursor = 'pointer';
     span.style.fontSize = '22px';
     span.style.margin = '5px';
-    
-    
-
-    // When emoji is clicked, add to chat input
     span.addEventListener('click', () => {
         chatInput.value += emoji;
-        emojigrid.style.display = 'none'; // hide after selecting
+        emojigrid.style.display = 'none';
         chatInput.focus();
     });
-
     emojigrid.appendChild(span);
 });
 
@@ -172,10 +178,9 @@ const gifs = [ 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif',
 ];
 
 const gifgrid = document.getElementById('gifGrid');
-const gifBtn = document.getElementById('gifButton');               
+const gifBtn = document.getElementById('gifButton');
 //fill gif grid with preview images
 gifs.forEach(url => {
-    
     const img = document.createElement('img');
     img.src = url;
     img.style.width = '75px';
@@ -184,39 +189,30 @@ gifs.forEach(url => {
     img.style.borderRadius = '10px';
     img.style.cursor = 'pointer';
     img.style.margin = '5px';
-    
-    // When gif is clicked, add to chat
- 
-
- img.addEventListener('click', () => {
-    const p = document.createElement('p');
-    
-    if ( chatTurn ==='X'){
-        p.textContent = "Player X: " ;
-        p.classList.add("playerX");
-        chatTurn ='O';
-    }else 
-    {  p.textContent = "Player O: ";
-        p.classList.add("playerO"); 
-        chatTurn = 'X';
-    }
-
-    const gifImg = document.createElement('img');
-    gifImg.src = url;
-    gifImg.style.width = '150px';
-    gifImg.style.height = '150px';
-    gifImg.style.objectFit = 'cover';
-    gifImg.style.borderRadius = '10px';
-    gifImg.scrollTop = gifImg.scrollHeight;
-     
-    
-    p.appendChild(gifImg);
-    chatMessages.appendChild(p);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-   
- gifgrid.style.display = 'none';
- });
- gifgrid.appendChild(img);
+    img.addEventListener('click', () => {
+        const p = document.createElement('p');
+        if ( chatTurn ==='X'){
+            p.textContent = playerXName + ": ";
+            p.classList.add("playerX");
+            chatTurn ='O';
+        }else {
+            p.textContent = playerOName + ": ";
+            p.classList.add("playerO");
+            chatTurn = 'X';
+        }
+        const gifImg = document.createElement('img');
+        gifImg.src = url;
+        gifImg.style.width = '150px';
+        gifImg.style.height = '150px';
+        gifImg.style.objectFit = 'cover';
+        gifImg.style.borderRadius = '10px';
+        gifImg.scrollTop = gifImg.scrollHeight;
+        p.appendChild(gifImg);
+        chatMessages.appendChild(p);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        gifgrid.style.display = 'none';
+    });
+    gifgrid.appendChild(img);
 });
 
 gifBtn.addEventListener("click", () => {
@@ -225,7 +221,6 @@ gifBtn.addEventListener("click", () => {
     }else{
         gifgrid.style.display = 'block';
     }
-    
 });
 
 const closeGifGridBtn = document.getElementById('closeGifGrid');
@@ -237,5 +232,22 @@ const closeEmojibtn = document.getElementById('closeEmojiGrid');
 closeEmojibtn.addEventListener('click', () => {
     emojigrid.style.display = 'none'
 });
- gifgrid.style.display = 'none';
-    emojigrid.style.display = 'none';
+gifgrid.style.display = 'none';
+emojigrid.style.display = 'none';
+
+document.addEventListener('DOMContentLoaded', function() {
+    const playBtn = document.getElementById("playButton");
+    if (playBtn) {
+        playBtn.addEventListener('click', function () {
+            const player1 = document.getElementById("Player1Name")?.value.trim();
+            const player2 = document.getElementById("Player2Name")?.value.trim();
+            if (player1 && player2) {
+                localStorage.setItem("playerX", player1);
+                localStorage.setItem("playerO", player2);
+                window.location.href = "index.html";
+            } else {
+                alert("Please enter both player names!");
+            }
+        });
+    }
+});

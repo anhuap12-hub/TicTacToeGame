@@ -1,0 +1,63 @@
+body{
+    display: flex;
+   margin: 0;
+    height: 100vh;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #b3d6eb, #c2e9fb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+#form-container{
+    display: flex;
+    width: 200px;
+    height: 300px;
+    background-color: aqua;
+    flex-direction: column;
+   align-items: center;
+    overflow-y: auto;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background: linear-gradient(-45deg, #5be9dd, #e9eb72, #b3d6eb, #e08ff0);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+#title{
+    align-items: center;
+    font-weight: bold;
+    margin-top: 50px;
+    font-size: 20px;
+    display: block;
+    color: #ffffff;
+    cursor: pointer;
+    ;
+    text: shadow 2px solid #5be9dd;
+}
+#title:hover{
+    transform: scale(1.0);
+    outline: 1px #5be9dd;
+}
+#Player1{
+    margin-top:40px;
+     margin-left: 5px;
+    
+}
+#Player2{
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+    @keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+    
+}
+#playButton{
+    display: block;
+    margin-top: 10px;
+    
+}
